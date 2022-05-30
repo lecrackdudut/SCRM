@@ -35,4 +35,7 @@ Route::middleware([
     Route::get('/projects', function () {
         return Inertia::render('Projects');
     })->name('projects');
+    Route::get('/project/1', function () {
+        return Inertia::render('ProjectDetail');
+    })->name('project-detail');
 });

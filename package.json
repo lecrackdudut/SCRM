@@ -26,6 +26,6 @@
         "vue-loader": "^17.0.0"
     },
     "dependencies": {
-        "primevue": "^3.12.6"
+        "daisyui": "^2.15.1"
     }
 }
