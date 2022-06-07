@@ -6,7 +6,7 @@ use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sprint extends Model
+class Task extends Model
 {
     use HasFactory;
 
@@ -19,13 +19,13 @@ class Sprint extends Model
         'status' => Status::class,
     ];
 
-    public function tasks()
+    public function backlog()
     {
-        return $this->hasMany(Task::class);
+        return $this->belongsTo(Backlog::class);
     }
 
-    public function project()
+    public function sprint()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Sprint::class);
     }
 }

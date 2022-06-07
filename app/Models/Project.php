@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
+
+    public function backlog()
+    {
+        return $this->hasOne(Backlog::class);
+    }
+
+    public function sprints()
+    {
+        return $this->hasMany(Sprint::class);
+    }
+
+    public function projectMembers()
+    {
+        return $this->hasMany(ProjectMember::class);
+    }
 }

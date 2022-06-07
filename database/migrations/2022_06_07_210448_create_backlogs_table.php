@@ -14,12 +14,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sprints', function (Blueprint $table) {
+        Schema::create('backlogs', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->string('status')->default('open');
             $table->foreignIdFor(Project::class)->constrained();
             $table->timestamps();
         });
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sprints');
+        Schema::dropIfExists('backlogs');
     }
 };

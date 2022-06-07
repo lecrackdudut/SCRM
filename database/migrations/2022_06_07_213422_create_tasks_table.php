@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\Project;
+use App\Models\Backlog;
+use App\Models\Sprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,13 +15,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sprints', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->string('title');
+            $table->text('description')->nullable();
             $table->string('status')->default('open');
-            $table->foreignIdFor(Project::class)->constrained();
+            $table->integer('score')->nullable();
+            $table->foreignIdFor(Backlog::class)->constrained();
+            $table->foreignIdFor(Sprint::class)->nullable()->constrained();
             $table->timestamps();
         });
     }
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sprints');
+        Schema::dropIfExists('tasks');
     }
 };

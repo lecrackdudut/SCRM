@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Enums\Status;
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sprint extends Model
+class ProjectMember extends Model
 {
     use HasFactory;
 
@@ -16,12 +16,12 @@ class Sprint extends Model
      * @var array
      */
     protected $casts = [
-        'status' => Status::class,
+        'role' => Role::class,
     ];
 
-    public function tasks()
+    public function user()
     {
-        return $this->hasMany(Task::class);
+        return $this->belongsTo(User::class);
     }
 
     public function project()
