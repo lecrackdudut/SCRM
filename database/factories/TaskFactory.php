@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,7 @@ class TaskFactory extends Factory
             'description' => $this->faker->text,
             'status' => $this->faker->randomElement(['open', 'in_progress', 'closed']),
             'score' => $this->faker->randomDigit(),
+            'user_id' => User::first()->id
         ];
     }
 }
