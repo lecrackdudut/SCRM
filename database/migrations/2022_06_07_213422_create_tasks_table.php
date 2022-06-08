@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('score')->nullable();
             $table->foreignIdFor(Backlog::class)->constrained();
             $table->foreignIdFor(Sprint::class)->nullable()->constrained();
+            $table->foreignIdFor(User::class)->constrained();
             $table->timestamps();
         });
     }

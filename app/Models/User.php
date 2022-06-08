@@ -59,8 +59,13 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function projectMembers()
+    public function memberships()
     {
         return $this->hasMany(ProjectMember::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 }

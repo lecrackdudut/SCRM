@@ -19,7 +19,7 @@ class Project extends Model
         return $this->hasMany(Sprint::class);
     }
 
-    public function projectMembers()
+    public function memberships()
     {
         return $this->hasMany(ProjectMember::class);
     }
