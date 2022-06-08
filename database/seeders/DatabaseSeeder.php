@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Backlog;
+use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,5 +24,20 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        Project::factory(3)
+        ->has(Backlog::factory()
+            ->has(Task::factory(10)
+                ->state(function (array $attributes, Backlog $backlog) {
+                        return ['backlog_id' => $backlog->id];
+                    }
+                )
+            )
+        )
+        ->create();
+
+        
+
+
     }
 }
