@@ -5,7 +5,7 @@
         "development": "mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
+        "hot": "mix watch --hot -- --host=0.0.0.0",
         "prod": "npm run production",
         "production": "mix --production"
     },
@@ -24,5 +24,8 @@
         "tailwindcss": "^3.0.0",
         "vue": "^3.2.31",
         "vue-loader": "^17.0.0"
+    },
+    "dependencies": {
+        "daisyui": "^2.15.1"
     }
 }
