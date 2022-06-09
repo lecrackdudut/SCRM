@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProjectsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,10 +33,11 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-    Route::get('/projects', function () {
-        return Inertia::render('Projects');
-    })->name('projects');
-    Route::get('/project/1', function () {
-        return Inertia::render('ProjectDetail');
-    })->name('project-detail');
+    Route::controller(ProjectsController::class)->group(function() {
+        Route::get('/projects', 'index')->name('projects');
+        Route::get('/projects/1', function () {
+            return Inertia::render('ProjectDetail');
+        })->name('project-detail');
+    });
+
 });

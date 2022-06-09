@@ -1,6 +1,8 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-
+const props = defineProps({
+  projects: Array
+})
 </script>
 
 <template>
@@ -24,7 +26,8 @@ import AppLayout from '@/Layouts/AppLayout.vue';
     <!-- head -->
     <tbody>
       <!-- row 1 -->
-      <tr>
+      <tr v-for="project in projects"
+          :key="project.id">
         <td>
           <div class="flex items-center space-x-3">
             <div class="avatar">
@@ -33,45 +36,19 @@ import AppLayout from '@/Layouts/AppLayout.vue';
               </div>
             </div>
             <div>
-              <div class="font-bold">TA72 Inscription</div>
+              <div class="font-bold">{{project.name}}</div>
               <div class="text-sm opacity-50">Alexis Dampt</div>
             </div>
           </div>
         </td>
         <td>
-          <span class="badge badge-ghost badge-sm bg-green-300">Sprint en cours</span>
+          <span class="badge badge-ghost badge-sm bg-green-300">{{project.sprint_duration}}</span>
         </td>
-        <td>32 <b>Taches</b>
-        <br>5 <b>Sprints</b>
-        </td>
-        <td class="text-right">
-          Mise a jours <b>il y a un jour</b>
-        </td>
-      </tr>
-
-       <!-- row 2 -->
-      <tr>
-        <td>
-          <div class="flex items-center space-x-3">
-            <div class="avatar">
-              <div class="mask mask-squircle w-12 h-12">
-                <img src="https://ui-avatars.com/api/?name=Ile de France Site" alt="Avatar Tailwind CSS Component" />
-              </div>
-            </div>
-            <div>
-              <div class="font-bold">Ile de France Site</div>
-              <div class="text-sm opacity-50">Thomas Tse</div>
-            </div>
-          </div>
-        </td>
-        <td>
-          <span class="badge badge-ghost badge-sm bg-green-300">Sprint en cours</span>
-        </td>
-        <td>32 <b>Taches</b>
-        <br>5 <b>Sprints</b>
+        <td>{{project.nbSprints}} <b>Taches</b>
+        <br>{{project.nbTasks}} <b>Sprints</b>
         </td>
         <td class="text-right">
-          Mise a jours <b>il y a un jour</b>
+          Mis à jour le <b>{{project.majRelative}}</b>
         </td>
       </tr>
     </tbody>
