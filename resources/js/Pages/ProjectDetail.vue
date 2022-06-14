@@ -5,19 +5,18 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 
 <template>
     <AppLayout title="Dashboard">
-<div class="drawer drawer-mobile">
-  <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-  <div class="drawer-content flex flex-col ">
-    <div class="py-6">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex">
+    <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Projets #1
+            </h2>
+        </template>
+<div class="px-4">
+<div class="flex justify-end py-3">
                     <div>
-                      <h1 class="text-2xl font-bold">Backlog</h1>
+                      <label for="my-modal" class="btn btn-primary modal-button">Creer une tache</label >
                     </div>
-                    
                 </div>
-                <div class="overflow-x-auto w-full mt-5">
-                <table class="table w-full">
+<table class="table w-full mt-2 px-3">
     <!-- head -->
     <tbody>
 
@@ -52,24 +51,23 @@ import AppLayout from '@/Layouts/AppLayout.vue';
     </tbody>
     
   </table>
-              </div>
-            </div>
-        </div>
-    <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
-  
-  </div> 
-  <div class="drawer-side">
-    <label for="my-drawer-2" class="drawer-overlay"></label> 
-    
-    <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
-    <h2>Menu</h2>
-      <!-- Sidebar content here -->
-      <li><a>Sidebar Item 1</a></li>
-      <li><a>Sidebar Item 2</a></li>
-    </ul>
-  
+
+</div>
+<input type="checkbox" id="my-modal" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Creer un projet</h3>
+    <p class="py-4">Nom du tache</p>
+    <input type="text"  class="input input-bordered input-primary w-full max-w-xs"   />
+    <p class="py-4">Delais</p>
+    <input type="text" class="input input-bordered input-primary w-full max-w-xs"   />
+
+    <div class="modal-action">
+      <label for="my-modal" class="btn">Creer</label>
+    </div>
   </div>
 </div>
+                
         
     </AppLayout>
 </template>
