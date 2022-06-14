@@ -51,34 +51,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce diam lacus, ultri
             <div class="divider m-0 "></div>
             <div class="flex flex-wrap gap-1">
               <div class="badge badge-lg">987,654</div>
-              <div class="badge badge-lg">987,654</div>
-              <div class="badge badge-lg">987,654</div>
-              <div class="badge badge-lg">987,654</div>
-              <div class="badge badge-lg">987,654</div>
-              <div class="badge badge-lg">987,654</div>
             </div>
           </div>
 
-          <div>
-            <div class="flex items-center">
-              <span class="grow">Label</span>
-              <button class="btn btn-square btn-outline btn-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-              </button>
-            </div>
-            <div class="divider m-0 "></div>
-            <div class="flex flex-wrap gap-1">
-              <div class="badge badge-lg">987,654</div>
-              <div class="badge badge-lg">987,654</div>
-              <div class="badge badge-lg">987,654</div>
-              <div class="badge badge-lg">987,654</div>
-              <div class="badge badge-lg">987,654</div>
-              <div class="badge badge-lg">987,654</div>
-            </div>
-          </div>
 
           <div>
             <div class="flex items-center">
@@ -95,34 +70,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce diam lacus, ultri
               6
             </div>
           </div>
-          <div>
-            <div class="flex items-center">
-              <span class="grow">Date d'echeance</span>
-              <button class="btn btn-square btn-outline btn-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-              </button>
-            </div>
-            <div class="divider m-0 "></div>
-            <div class="flex">
-              26/09/2019
-            </div>
-          </div>
         </div>
         <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
-
-      </div>
-      <div class="drawer-side">
-        <label for="my-drawer-2" class="drawer-overlay"></label>
-
-        <ul class="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
-          <h2>Menu</h2>
-          <!-- Sidebar content here -->
-          <li><a>Sidebar Item 1</a></li>
-          <li><a>Sidebar Item 2</a></li>
-        </ul>
 
       </div>
     </div>

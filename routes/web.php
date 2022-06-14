@@ -33,11 +33,16 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    
     Route::controller(ProjectsController::class)->group(function() {
         Route::get('/projects', 'index')->name('projects');
         Route::get('/projects/1', function () {
             return Inertia::render('ProjectDetail');
         })->name('project-detail');
+        Route::get('/projects/1/tasks/1', function () {
+            return Inertia::render('TaskDetail');
+        })->name('task-detail');
+
     });
 
 });
