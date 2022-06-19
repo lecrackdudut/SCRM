@@ -26,6 +26,12 @@ class ProjectsController extends Controller
 
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Inertia\Response
+     */
     public function show(Project $project)
     {
         return Inertia::render('ProjectsDetails', [

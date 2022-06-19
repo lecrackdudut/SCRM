@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Backlog;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -62,22 +63,24 @@ class TaskController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function show($id)
     {
-        //
+        return Task::findOrFail($id);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit($id)
     {
-        //
+        return Inertia::render('TaskEdition', [
+            'task' => $this->show($id)
+        ]);
     }
 
     /**
@@ -85,21 +88,39 @@ class TaskController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $task = Task::findOrFail($id);
+
+        $task->title = $request->title;
+        $task->description = $request->description;
+        $task->status = $request->status;
+        $task->score = $request->score;
+
+        $task->save();
+
+
+        $backlog = Backlog::findOrFail($task->backlogId);
+        $project = Project::findOrFail($backlog->projectId);
+        return Redirect::route('projects.show', $project);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        //
+        $task = Task::findOrFail($id);
+
+        $backlog = Backlog::findOrFail($task->backlogId);
+        $project = Project::findOrFail($backlog->projectId);
+
+        $task->delete();
+        return Redirect::route('projects.show', $project);
     }
 }
