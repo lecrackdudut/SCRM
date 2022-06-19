@@ -34,7 +34,7 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
-        return Inertia::render('ProjectsDetails', [
+        return Inertia::render('ProjectDetail', [
             'tasks' => $project->backlog->tasks
         ]);
 

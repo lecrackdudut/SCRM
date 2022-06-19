@@ -67,7 +67,7 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        return Task::findOrFail($id);
+        //return Task::findOrFail($id); TODO : JS ou pas
     }
 
     /**
@@ -78,9 +78,9 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        return Inertia::render('TaskEdition', [
-            'task' => $this->show($id)
-        ]);
+        //return Inertia::render('TaskEdition', [
+        //    'task' => $this->show($id)
+        //]);
     }
 
     /**
@@ -101,9 +101,7 @@ class TaskController extends Controller
 
         $task->save();
 
-
-        $backlog = Backlog::findOrFail($task->backlogId);
-        $project = Project::findOrFail($backlog->projectId);
+        $project = $task->backlog->project;
         return Redirect::route('projects.show', $project);
     }
 
@@ -117,8 +115,7 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        $backlog = Backlog::findOrFail($task->backlogId);
-        $project = Project::findOrFail($backlog->projectId);
+        $project = $task->backlog->project;
 
         $task->delete();
         return Redirect::route('projects.show', $project);
