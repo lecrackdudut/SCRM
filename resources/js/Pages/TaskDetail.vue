@@ -25,7 +25,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
             <div class="flex gap-4 align-center m-2">
               <div class="badge">neutral</div>
               <div>
-                Creer il y a 3 ans par <b>Elwalid Kadura</b>
+                Créé il y a 3 ans par <b>Elwalid Kadura</b>
               </div>
             </div>
             <div class="overflow-x-auto w-full mt-5">

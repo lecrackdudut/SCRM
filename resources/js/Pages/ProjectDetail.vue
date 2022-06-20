@@ -13,7 +13,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 <div class="px-4">
 <div class="flex justify-end py-3">
                     <div>
-                      <label for="my-modal" class="btn btn-primary modal-button">Créer une tache</label >
+                      <label for="my-modal" class="btn btn-primary modal-button">Créer une tâche</label >
                     </div>
                 </div>
 <table class="table w-full mt-2 px-3">
@@ -56,7 +56,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 <input type="checkbox" id="my-modal" class="modal-toggle" />
 <div class="modal">
   <div class="modal-box">
-    <h3 class="font-bold text-lg">Créer un tache</h3>
+    <h3 class="font-bold text-lg">Créer une tâche</h3>
     <p class="py-4">Nom de la tâche</p>
     <input type="text"  class="input input-bordered input-primary w-full max-w-xs"   />
     <p class="py-4">Description</p>
