@@ -64,7 +64,7 @@ const props = defineProps({
   <input type="checkbox" id="my-modal" class="modal-toggle" />
 <div class="modal">
   <div class="modal-box">
-    <h3 class="font-bold text-lg">Creer un projet</h3>
+    <h3 class="font-bold text-lg">Créer un projet</h3>
     <p class="py-4">Nom du projet</p>
     <input type="text"  class="input input-bordered input-primary w-full max-w-xs"   />
     <p class="py-4">Description</p>

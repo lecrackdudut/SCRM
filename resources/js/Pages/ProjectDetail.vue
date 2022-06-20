@@ -7,13 +7,13 @@ import AppLayout from '@/Layouts/AppLayout.vue';
     <AppLayout title="Dashboard">
     <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Projets #1
+                Projet #1
             </h2>
         </template>
 <div class="px-4">
 <div class="flex justify-end py-3">
                     <div>
-                      <label for="my-modal" class="btn btn-primary modal-button">Creer une tache</label >
+                      <label for="my-modal" class="btn btn-primary modal-button">Créer une tache</label >
                     </div>
                 </div>
 <table class="table w-full mt-2 px-3">
@@ -38,7 +38,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
           </div>
         </td>
         <td>
-          <span class="badge badge-ghost badge-sm bg-blue-300">EN COURS</span>
+          <span class="badge badge-ghost badge-sm bg-blue-300">En cours</span>
         </td>
         <td class="p-2 ">
        <div class="avatar">
@@ -56,15 +56,15 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 <input type="checkbox" id="my-modal" class="modal-toggle" />
 <div class="modal">
   <div class="modal-box">
-    <h3 class="font-bold text-lg">Creer un tache</h3>
-    <p class="py-4">Nom du tache</p>
+    <h3 class="font-bold text-lg">Créer un tache</h3>
+    <p class="py-4">Nom de la tâche</p>
     <input type="text"  class="input input-bordered input-primary w-full max-w-xs"   />
     <p class="py-4">Description</p>
     <input type="text" class="input input-bordered input-primary w-full max-w-xs"   />
-<p class="py-4">Poid</p>
+<p class="py-4">Poids</p>
     <input type="text" class="input input-bordered input-primary w-full max-w-xs"   />
     <div class="modal-action">
-      <label for="my-modal" class="btn">Creer</label>
+      <label for="my-modal" class="btn">Créer</label>
     </div>
   </div>
 </div>
