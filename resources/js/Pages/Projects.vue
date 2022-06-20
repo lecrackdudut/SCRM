@@ -17,7 +17,8 @@ const props = defineProps({
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-end">
                     <div>
-                      <button class="btn btn-primary">Creer un projet</button>
+                      <label   for="my-modal" class="btn btn-primary modal-button">Creer un projet</label >
+
                     </div>
                     
                 </div>
@@ -59,6 +60,24 @@ const props = defineProps({
     </tbody>
     
   </table>
+  <input type="checkbox" id="my-modal" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Creer un projet</h3>
+    <p class="py-4">Nom du projet</p>
+    <input type="text"  class="input input-bordered input-primary w-full max-w-xs"   />
+    <p class="py-4">Description</p>
+    <input type="text" class="input input-bordered input-primary w-full max-w-xs"   />
+    <p class="py-4">Membres</p>
+    <input type="text"  class="input input-bordered input-primary w-full max-w-xs" disabled  />
+    <p class="py-4">Documents</p>
+    <input type="text"  class="input input-bordered input-primary w-full max-w-xs" disabled  />
+
+    <div class="modal-action">
+      <label for="my-modal" class="btn">Creer</label>
+    </div>
+  </div>
+</div>
 </div>
             </div>
         </div>

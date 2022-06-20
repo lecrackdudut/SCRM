@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Backlog;
 use App\Models\Project;
+use Illuminate\Console\Events\ScheduledTaskSkipped;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,10 +19,24 @@ class ProjectsController extends Controller
             $project->nbTasks = $project->backlog->tasks->count();
             $project->majRelative = $project->updated_at->diffForHumans();
         }
-        
+
         return Inertia::render('Projects', [
             'projects' => $projects
         ]);
-        
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Inertia\Response
+     */
+    public function show(Project $project)
+    {
+        return Inertia::render('ProjectDetail', [
+            'tasks' => $project->backlog->tasks
+        ]);
+
     }
 }
