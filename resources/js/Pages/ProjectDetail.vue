@@ -1,14 +1,16 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import {ref} from "vue";
-import { Link, useForm } from '@inertiajs/inertia-vue3';
+import {Link, useForm} from '@inertiajs/inertia-vue3';
 
 import {Inertia} from '@inertiajs/inertia';
+import {getCurrentInstance, defineComponent} from 'vue'
 
 const props = defineProps({
     tasks: Array,
     projectId: Number,
 })
+
 const translateStatus = {
     "in_progress": "EN COURS",
     "open": "OUVERTE",
@@ -19,7 +21,7 @@ const form = useForm({
     title: null,
     description: null,
     status: "open",
-    score: false,
+    score: null,
     projectId: props.projectId
 })
 
@@ -36,6 +38,10 @@ function getClass(status) {
     if (color === "green") dynamicClass = "bg-green-200";
     else if (color === "red") dynamicClass = "bg-red-200";
     return dynamicClass;
+}
+
+function closeModal() {
+    document.getElementById("my-modal").checked = false;
 }
 </script>
 
@@ -69,11 +75,11 @@ function getClass(status) {
 
                     <td>
                         <Link :href="`/projects/1/tasks/${task.id}`">
-                        <div class="flex items-center space-x-1 hover:underline">
-                            <div>
-                                <span>{{ task.title }}</span>
+                            <div class="flex items-center space-x-1 hover:underline">
+                                <div>
+                                    <span>{{ task.title }}</span>
+                                </div>
                             </div>
-                        </div>
                         </Link>
                     </td>
                     <td>
@@ -88,24 +94,28 @@ function getClass(status) {
                         </div>
                     </td>
                     <td class="p-2 flex space-x-3">
-                        <button class="btn btn-square btn-circle">
-                            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
-                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                        <Link :href="`/tasks/${task.id}`" method="delete" as="button" type="button" class="btn btn-square btn-circle">
+                        <div>
+                            <label class="btn btn-square btn-circle" for="task-edition">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"/>
+                                </svg>
+                            </label>
+                        </div>
+                        <Link :href="`/tasks/${task.id}`" as="button" class="btn btn-square btn-circle" method="delete"
+                              preserve-scroll type="button">
                             <svg height="18px" viewBox="0 0 18 18" width="18px" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13 18H5a2 2 0 0 1-2-2V7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2zm3-15a1 1 0 0 1-1 1H3a1 1 0 0 1 0-2h3V1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h3a1 1 0 0 1 1 1z"
-                                      fill="#FFFFFF"/>
+                                <path
+                                    d="M13 18H5a2 2 0 0 1-2-2V7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2zm3-15a1 1 0 0 1-1 1H3a1 1 0 0 1 0-2h3V1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h3a1 1 0 0 1 1 1z"
+                                    fill="#FFFFFF"/>
                             </svg>
                         </Link>
                     </td>
                 </tr>
-
                 </tbody>
-
             </table>
 
         </div>
@@ -113,38 +123,70 @@ function getClass(status) {
         <div class="modal">
             <div class="modal-box">
                 <h3 class="font-bold text-lg">Créer une tâche</h3>
-                <form @submit.prevent="form.post('/tasks')">
-                    <label class="py-4">Nom de la tâche</label>
-                    <input v-model="form.title" class="input input-bordered input-primary w-full max-w-xs" type="text"/>
-                    <label class="py-4">Description</label>
-                    <input v-model="form.description" class="input input-bordered input-primary w-full max-w-xs" type="text"/>
-                    <label class="py-4">Poids</label>
-                    <input v-model="form.score" class="input input-bordered input-primary w-full max-w-xs" type="text"/>
-                    <label class="btn" for="my-modal">
-                        <button type="submit" class="btn" :disabled="form.processing">Créer</button>
-                    </label>
-                    <div class="modal-action">
-                        <label for="my-modal" class="btn">Yay!</label>
+                <form @submit.prevent="form.post('/tasks', {
+                        preserveScroll: true,
+                        onSuccess: () => {
+                            form.reset()
+                            closeModal()
+                        },
+                })">
+                    <div class="flex flex-col">
+                        <label class="py-4">Nom de la tâche</label>
+                        <input v-model="form.title" class="input input-bordered input-primary w-full max-w-xs"
+                               type="text"/>
+                        <div class="text-error" v-if="form.errors.title">{{ form.errors.title }}</div>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="py-4">Description</label>
+                        <input v-model="form.description" class="input input-bordered input-primary w-full max-w-xs"
+                               type="text"/>
+                        <div class="text-error" v-if="form.errors.description">{{ form.errors.description }}</div>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="py-4">Priorité</label>
+                        <input v-model="form.score" class="input input-bordered input-primary w-full max-w-xs"
+                               max="3" min="0" type="number"/>
+                        <div class="text-error" v-if="form.errors.score">{{ form.errors.score }}</div>
                     </div>
 
-<!--                    &lt;!&ndash; email &ndash;&gt;
-                    <input type="text" v-model="form.email">
-                    <div v-if="form.errors.email">{{ form.errors.email }}</div>
-                    &lt;!&ndash; password &ndash;&gt;
-                    <input type="password" v-model="form.password">
-                    <div v-if="form.errors.password">{{ form.errors.password }}</div>
-                    &lt;!&ndash; remember me &ndash;&gt;
-                    <input type="checkbox" v-model="form.remember"> Remember Me
-                    &lt;!&ndash; submit &ndash;&gt;
-                    <button type="submit" :disabled="form.processing">Login</button>-->
+                    <div class="modal-action">
+                        <button :disabled="form.processing" class="btn" type="submit">
+                            créer
+                        </button>
+                    </div>
                 </form>
-<!--                <form action="/tasks" method="PUT">
+            </div>
+        </div>
+
+
+        <input id="task-edition" class="modal-toggle" type="checkbox"/>
+        <div class="modal">
+            <div class="modal-box">
+                <h3 class="font-bold text-lg">Modifier la tâche</h3>
+                <form @submit.prevent="form.put('/tasks/' + task)">
+                    <div class="flex flex-col">
+                        <label class="py-4">Nom de la tâche</label>
+                        <input v-model="form.title" class="input input-bordered input-primary w-full max-w-xs"
+                               type="text"/>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="py-4">Description</label>
+                        <input v-model="form.description" class="input input-bordered input-primary w-full max-w-xs"
+                               type="text"/>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="py-4">Priorité</label>
+                        <input v-model="form.score"
+                               class="input input-bordered input-primary w-full max-w-xs"
+                               max="3" min="0" type="number"/>
+                    </div>
 
                     <div class="modal-action">
-                        <button type="submit" class="btn">Créer</button>
+                        <button :disabled="form.processing" type="submit">
+                            <label class="btn" for="task-edition">Créer</label>
+                        </button>
                     </div>
-                </form>-->
-
+                </form>
             </div>
         </div>
 
