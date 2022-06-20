@@ -1,16 +1,27 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import {ref} from "vue";
+import { Link, useForm } from '@inertiajs/inertia-vue3';
+
+import {Inertia} from '@inertiajs/inertia';
 
 const props = defineProps({
-    tasks: Array
+    tasks: Array,
+    projectId: Number,
 })
-
 const translateStatus = {
     "in_progress": "EN COURS",
     "open": "OUVERTE",
     "closed": "FERMÉE"
 };
+
+const form = useForm({
+    title: null,
+    description: null,
+    status: "open",
+    score: false,
+    projectId: props.projectId
+})
 
 function getColor(status) {
     let color = "blue";
@@ -41,6 +52,7 @@ function getClass(status) {
                     <label class="btn btn-primary modal-button" for="my-modal">Créer une tâche</label>
                 </div>
             </div>
+
             <table class="table w-full mt-2 px-3">
                 <!-- head -->
                 <tbody>
@@ -56,11 +68,13 @@ function getClass(status) {
                     </td>
 
                     <td>
-                        <div class="flex items-center space-x-1">
+                        <Link :href="`/projects/1/tasks/${task.id}`">
+                        <div class="flex items-center space-x-1 hover:underline">
                             <div>
                                 <span>{{ task.title }}</span>
                             </div>
                         </div>
+                        </Link>
                     </td>
                     <td>
                         <span :class="getClass(translateStatus[task.status.toLowerCase()])"
@@ -81,15 +95,15 @@ function getClass(status) {
                                       stroke-linejoin="round"/>
                             </svg>
                         </button>
-                        <button class="btn btn-square btn-circle">
+                        <Link :href="`/tasks/${task.id}`" method="delete" as="button" type="button" class="btn btn-square btn-circle">
                             <svg height="18px" viewBox="0 0 18 18" width="18px" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13 18H5a2 2 0 0 1-2-2V7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2zm3-15a1 1 0 0 1-1 1H3a1 1 0 0 1 0-2h3V1a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h3a1 1 0 0 1 1 1z"
                                       fill="#FFFFFF"/>
                             </svg>
-                        </button>
+                        </Link>
                     </td>
-
                 </tr>
+
                 </tbody>
 
             </table>
@@ -99,15 +113,38 @@ function getClass(status) {
         <div class="modal">
             <div class="modal-box">
                 <h3 class="font-bold text-lg">Créer une tâche</h3>
-                <p class="py-4">Nom de la tâche</p>
-                <input class="input input-bordered input-primary w-full max-w-xs" type="text"/>
-                <p class="py-4">Description</p>
-                <input class="input input-bordered input-primary w-full max-w-xs" type="text"/>
-                <p class="py-4">Poids</p>
-                <input class="input input-bordered input-primary w-full max-w-xs" type="text"/>
-                <div class="modal-action">
-                    <label class="btn" for="my-modal">Créer</label>
-                </div>
+                <form @submit.prevent="form.post('/tasks')">
+                    <label class="py-4">Nom de la tâche</label>
+                    <input v-model="form.title" class="input input-bordered input-primary w-full max-w-xs" type="text"/>
+                    <label class="py-4">Description</label>
+                    <input v-model="form.description" class="input input-bordered input-primary w-full max-w-xs" type="text"/>
+                    <label class="py-4">Poids</label>
+                    <input v-model="form.score" class="input input-bordered input-primary w-full max-w-xs" type="text"/>
+                    <label class="btn" for="my-modal">
+                        <button type="submit" class="btn" :disabled="form.processing">Créer</button>
+                    </label>
+                    <div class="modal-action">
+                        <label for="my-modal" class="btn">Yay!</label>
+                    </div>
+
+<!--                    &lt;!&ndash; email &ndash;&gt;
+                    <input type="text" v-model="form.email">
+                    <div v-if="form.errors.email">{{ form.errors.email }}</div>
+                    &lt;!&ndash; password &ndash;&gt;
+                    <input type="password" v-model="form.password">
+                    <div v-if="form.errors.password">{{ form.errors.password }}</div>
+                    &lt;!&ndash; remember me &ndash;&gt;
+                    <input type="checkbox" v-model="form.remember"> Remember Me
+                    &lt;!&ndash; submit &ndash;&gt;
+                    <button type="submit" :disabled="form.processing">Login</button>-->
+                </form>
+<!--                <form action="/tasks" method="PUT">
+
+                    <div class="modal-action">
+                        <button type="submit" class="btn">Créer</button>
+                    </div>
+                </form>-->
+
             </div>
         </div>
 

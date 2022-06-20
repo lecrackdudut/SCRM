@@ -21,7 +21,7 @@ const props = defineProps({
                       <label for="my-modal" class="btn btn-primary modal-button">Créer un projet</label >
 
                     </div>
-                    
+
                 </div>
                 <div class="overflow-x-auto w-full mt-5">
   <table class="table w-full">
@@ -30,9 +30,9 @@ const props = defineProps({
       <!-- row 1 -->
       <tr v-for="project in projects"
           :key="project.id">
-        
+
         <td>
-          <Link :href="`projects/${project.id}`">
+          <Link :href="`/projects/${project.id}`" class="hover:underline">
             <div class="flex items-center space-x-3">
               <div class="avatar">
                 <div class="mask mask-squircle w-12 h-12">
@@ -46,7 +46,7 @@ const props = defineProps({
             </div>
           </Link>
         </td>
-        
+
         <td>
           <span class="badge badge-ghost badge-sm bg-green-300">En cours</span>
         </td>
@@ -59,7 +59,7 @@ const props = defineProps({
       </tr>
 
     </tbody>
-    
+
   </table>
   <input type="checkbox" id="my-modal" class="modal-toggle" />
 <div class="modal">

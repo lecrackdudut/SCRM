@@ -10,6 +10,8 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'description', 'status', 'score'];
+
     /**
      * The attributes that should be cast.
      *
@@ -31,6 +33,6 @@ class Task extends Model
 
     public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, "user_id");
     }
 }

@@ -42,20 +42,26 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        Request::validate([
+        $request->validate([
             'title' => ['required', 'max:50'],
             'description' => ['required', 'max:50'],
             'status' => ['required'],
             'score' => ['required'],
         ]);
 
-        $task = Task::create(
-            Request::only('title', 'description', 'status', 'score')
+        $task = new Task;
+
+        $task->fill(
+            $request->only('title', 'description', 'status', 'score')
         );
-        $task->author = Auth::user();
 
         $project = Project::findOrFail($request->projectId);
-        $project->backlog()->tasks()->save($task);
+//        $task->backlog()->save($project->backlog);
+        $user = Auth::user();
+        $task->author()->associate($user);
+        $project->backlog->tasks()->save($task);
+
+        $task->save();
         return Redirect::route('projects.show', $project);
     }
 
