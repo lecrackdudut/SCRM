@@ -18,6 +18,8 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
+    return redirect('/projects');
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -32,7 +34,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return redirect('/projects');
     })->name('dashboard');
     Route::controller(ProjectsController::class)->group(function() {
         Route::get('/projects', 'index')->name('projects');
