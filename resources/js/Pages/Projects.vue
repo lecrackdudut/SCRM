@@ -28,11 +28,13 @@ const props = defineProps({
       <!-- row 1 -->
       <tr v-for="project in projects"
           :key="project.id">
+        
         <td>
+          <a :href="`projects/1`">
           <div class="flex items-center space-x-3">
             <div class="avatar">
               <div class="mask mask-squircle w-12 h-12">
-                <img src="https://ui-avatars.com/api/?name=TA72 Inscription" alt="Avatar Tailwind CSS Component" />
+                <img :src="`https://ui-avatars.com/api/?name=${project.name}`" alt="Avatar Tailwind CSS Component" />
               </div>
             </div>
             <div>
@@ -40,17 +42,20 @@ const props = defineProps({
               <div class="text-sm opacity-50">Alexis Dampt</div>
             </div>
           </div>
+          </a>
         </td>
+        
         <td>
           <span class="badge badge-ghost badge-sm bg-green-300">{{project.sprint_duration}}</span>
         </td>
-        <td>{{project.nbSprints}} <b>Taches</b>
-        <br>{{project.nbTasks}} <b>Sprints</b>
+        <td>{{project.nbTasks}} <b>Taches</b>
+        <br>{{project.nbSprints}} <b>Sprints</b>
         </td>
         <td class="text-right">
-          Mis à jour le <b>{{project.majRelative}}</b>
+          Mis à jour <b>{{project.majRelative}}</b>
         </td>
       </tr>
+
     </tbody>
     
   </table>
