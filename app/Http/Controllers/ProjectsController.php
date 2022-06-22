@@ -35,6 +35,7 @@ class ProjectsController extends Controller
     public function show(Project $project)
     {
         return Inertia::render('ProjectDetail', [
+            'name' => $project->name,
             'tasks' => $project->backlog->tasks,
             "projectId" => $project->id
         ]);

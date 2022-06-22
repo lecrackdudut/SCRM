@@ -1,9 +1,9 @@
 <script setup>
-import { Link } from '@inertiajs/inertia-vue3';
-import AppLayout from '@/Layouts/AppLayout.vue';
+import { Link } from "@inertiajs/inertia-vue3";
+import AppLayout from "@/Layouts/AppLayout.vue";
 const props = defineProps({
-  projects: Array
-})
+    projects: Array,
+});
 </script>
 
 <template>
@@ -16,70 +16,108 @@ const props = defineProps({
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="text-sm breadcrumbs">
+                    <ul>
+                        <li><Link href="/">Accueil</Link></li>
+                        <li><Link href="/projects">Projets</Link></li>
+                    </ul>
+                </div>
                 <div class="flex justify-end">
                     <div>
-                      <label for="my-modal" class="btn btn-primary modal-button">Créer un projet</label >
-
+                        <label
+                            for="my-modal"
+                            class="btn btn-primary modal-button"
+                            >Créer un projet</label
+                        >
                     </div>
-
                 </div>
                 <div class="overflow-x-auto w-full mt-5">
-  <table class="table w-full">
-    <!-- head -->
-    <tbody>
-      <!-- row 1 -->
-      <tr v-for="project in projects"
-          :key="project.id">
+                    <table class="table w-full">
+                        <!-- head -->
+                        <tbody>
+                            <!-- row 1 -->
+                            <tr v-for="project in projects" :key="project.id">
+                                <td>
+                                    <Link
+                                        :href="`/projects/${project.id}`"
+                                        class="hover:underline"
+                                    >
+                                        <div
+                                            class="flex items-center space-x-3"
+                                        >
+                                            <div class="avatar">
+                                                <div
+                                                    class="mask mask-squircle w-12 h-12"
+                                                >
+                                                    <img
+                                                        :src="`https://ui-avatars.com/api/?name=${project.name}`"
+                                                        alt="Avatar Tailwind CSS Component"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="font-bold">
+                                                    {{ project.name }}
+                                                </div>
+                                                <div class="text-sm opacity-50">
+                                                    Alexis Dampt
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </td>
 
-        <td>
-          <Link :href="`/projects/${project.id}`" class="hover:underline">
-            <div class="flex items-center space-x-3">
-              <div class="avatar">
-                <div class="mask mask-squircle w-12 h-12">
-                  <img :src="`https://ui-avatars.com/api/?name=${project.name}`" alt="Avatar Tailwind CSS Component" />
+                                <td>
+                                    <span
+                                        class="badge badge-ghost badge-sm bg-green-300"
+                                        >En cours</span
+                                    >
+                                </td>
+                                <td>
+                                    {{ project.nbTasks }} <b>Taches</b> <br />{{
+                                        project.nbSprints
+                                    }}
+                                    <b>Sprints</b>
+                                </td>
+                                <td class="text-right">
+                                    Mis à jour <b>{{ project.majRelative }}</b>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input type="checkbox" id="my-modal" class="modal-toggle" />
+                    <div class="modal">
+                        <div class="modal-box">
+                            <h3 class="font-bold text-lg">Créer un projet</h3>
+                            <p class="py-4">Nom du projet</p>
+                            <input
+                                type="text"
+                                class="input input-bordered input-primary w-full max-w-xs"
+                            />
+                            <p class="py-4">Description</p>
+                            <input
+                                type="text"
+                                class="input input-bordered input-primary w-full max-w-xs"
+                            />
+                            <p class="py-4">Membres</p>
+                            <input
+                                type="text"
+                                class="input input-bordered input-primary w-full max-w-xs"
+                                disabled
+                            />
+                            <p class="py-4">Documents</p>
+                            <input
+                                type="text"
+                                class="input input-bordered input-primary w-full max-w-xs"
+                                disabled
+                            />
+
+                            <div class="modal-action">
+                                <label for="my-modal" class="btn">Créer</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div>
-                <div class="font-bold">{{project.name}}</div>
-                <div class="text-sm opacity-50">Alexis Dampt</div>
-              </div>
-            </div>
-          </Link>
-        </td>
-
-        <td>
-          <span class="badge badge-ghost badge-sm bg-green-300">En cours</span>
-        </td>
-        <td>{{project.nbTasks}} <b>Taches</b>
-        <br>{{project.nbSprints}} <b>Sprints</b>
-        </td>
-        <td class="text-right">
-          Mis à jour <b>{{project.majRelative}}</b>
-        </td>
-      </tr>
-
-    </tbody>
-
-  </table>
-  <input type="checkbox" id="my-modal" class="modal-toggle" />
-<div class="modal">
-  <div class="modal-box">
-    <h3 class="font-bold text-lg">Créer un projet</h3>
-    <p class="py-4">Nom du projet</p>
-    <input type="text"  class="input input-bordered input-primary w-full max-w-xs"   />
-    <p class="py-4">Description</p>
-    <input type="text" class="input input-bordered input-primary w-full max-w-xs"   />
-    <p class="py-4">Membres</p>
-    <input type="text"  class="input input-bordered input-primary w-full max-w-xs" disabled  />
-    <p class="py-4">Documents</p>
-    <input type="text"  class="input input-bordered input-primary w-full max-w-xs" disabled  />
-
-    <div class="modal-action">
-      <label for="my-modal" class="btn">Créer</label>
-    </div>
-  </div>
-</div>
-</div>
             </div>
         </div>
     </AppLayout>
