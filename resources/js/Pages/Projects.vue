@@ -1,9 +1,20 @@
 <script setup>
-import { Link } from "@inertiajs/inertia-vue3";
+import {Link, useForm} from "@inertiajs/inertia-vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
+import {ref} from "vue";
 const props = defineProps({
     projects: Array,
 });
+
+const form = useForm({
+    title: null,
+    description: null,
+});
+
+const createModal = ref(null);
+function closeModal() {
+    createModal.value.checked = false;
+}
 </script>
 
 <template>
@@ -85,7 +96,80 @@ const props = defineProps({
                             </tr>
                         </tbody>
                     </table>
-                    <input type="checkbox" id="my-modal" class="modal-toggle" />
+
+
+
+                    <input id="my-modal" ref="createModal" class="modal-toggle" type="checkbox" />
+                    <div class="modal">
+                        <div class="modal-box">
+                            <div class="flex justify-between">
+                                <h3 class="font-bold text-lg">Créer un projet</h3>
+                                <button @click="closeModal()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24px" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="24px" xml:space="preserve"><path d="M443.6,387.1L312.4,255.4l131.5-130c5.4-5.4,5.4-14.2,0-19.6l-37.4-37.6c-2.6-2.6-6.1-4-9.8-4c-3.7,0-7.2,1.5-9.8,4  L256,197.8L124.9,68.3c-2.6-2.6-6.1-4-9.8-4c-3.7,0-7.2,1.5-9.8,4L68,105.9c-5.4,5.4-5.4,14.2,0,19.6l131.5,130L68.4,387.1  c-2.6,2.6-4.1,6.1-4.1,9.8c0,3.7,1.4,7.2,4.1,9.8l37.4,37.6c2.7,2.7,6.2,4.1,9.8,4.1c3.5,0,7.1-1.3,9.8-4.1L256,313.1l130.7,131.1  c2.7,2.7,6.2,4.1,9.8,4.1c3.5,0,7.1-1.3,9.8-4.1l37.4-37.6c2.6-2.6,4.1-6.1,4.1-9.8C447.7,393.2,446.2,389.7,443.6,387.1z"/></svg>
+                                </button>
+                            </div>
+                            <form
+                                @submit.prevent="
+                        form.post('/tasks', {
+                            preserveScroll: true,
+                            onSuccess: () => {
+                                form.reset();
+                                closeModal();
+                            },
+                        })
+                    "
+                            >
+                                <div class="flex flex-col">
+                                    <label class="py-4">Nom du projet</label>
+                                    <input
+                                        v-model="form.title"
+                                        class="input input-bordered input-primary w-full max-w-xs"
+                                        type="text"
+                                    />
+                                    <div class="text-error" v-if="form.errors.title">
+                                        {{ form.errors.title }}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col">
+                                    <label class="py-4">Description</label>
+                                    <input
+                                        v-model="form.description"
+                                        class="input input-bordered input-primary w-full max-w-xs"
+                                        type="text"
+                                    />
+                                    <div class="text-error" v-if="form.errors.description">
+                                        {{ form.errors.description }}
+                                    </div>
+                                </div>
+
+                                <p class="py-4">Membres</p>
+                                <input
+                                    type="text"
+                                    class="input input-bordered input-primary w-full max-w-xs"
+                                    disabled
+                                />
+                                <p class="py-4">Documents</p>
+                                <input
+                                    type="text"
+                                    class="input input-bordered input-primary w-full max-w-xs"
+                                    disabled
+                                />
+
+                                <div class="modal-action">
+                                    <button
+                                        :disabled="form.processing"
+                                        class="btn"
+                                        type="submit"
+                                    >
+                                        créer
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+<!--                    <input type="checkbox" id="my-modal" class="modal-toggle" />
                     <div class="modal">
                         <div class="modal-box">
                             <h3 class="font-bold text-lg">Créer un projet</h3>
@@ -118,7 +202,7 @@ const props = defineProps({
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </AppLayout>
 </template>

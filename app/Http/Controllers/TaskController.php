@@ -113,8 +113,7 @@ class TaskController extends Controller
 
         $task->save();
 
-        $project = $task->backlog->project;
-        return Redirect::route('projects.show', $project);
+        return back();
     }
 
     /**
