@@ -64,7 +64,7 @@ function closeModal() {
                 <tbody>
 
                 <!-- row 2 -->
-                <tr v-for="(task, index) in this.tasks" :key="index">
+                <tr v-for="(task, index) in tasks" :key="index">
                     <td>
                         <div class="flex items-center space-x-1">
                             <div>
