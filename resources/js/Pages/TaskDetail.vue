@@ -4,7 +4,8 @@ import { Link, useForm } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
     project: Object,
-    task: Object
+    task: Object,
+    majRelative: String
 });
 </script>
 
@@ -16,7 +17,7 @@ const props = defineProps({
             </h2>
         </template>
         <div class="py-6">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 table">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="text-sm breadcrumbs">
                     <ul>
                         <li><Link href="/">Accueil</Link></li>
@@ -35,8 +36,8 @@ const props = defineProps({
                         <div class="py-6 grow">
                             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                                 <div class="flex gap-5 justify-start">
-                                    <h1 class="text-2xl font-bold">#3</h1>
-                                    <h1 class="text-2xl grow">Update Doc</h1>
+                                    <h1 class="text-2xl font-bold">#{{task.id}}</h1>
+                                    <h1 class="text-2xl grow">{{task.title}}</h1>
                                     <button class="btn btn-square btn-circle">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -57,57 +58,19 @@ const props = defineProps({
                                 <div class="flex gap-4 align-center m-2">
                                     <div class="badge">neutral</div>
                                     <div>
-                                        Créé il y a 3 ans par
-                                        <b>Elwalid Kadura</b>
+                                        Créé {{majRelative}} par
+                                        <b>{{ task.author.name }}</b>
                                     </div>
                                 </div>
                                 <div
                                     class="overflow-x-auto w-full mt-5 bg-white rounded p-4"
                                 >
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Morbi ut orci aliquet,
-                                    malesuada tellus sit amet, sollicitudin ex.
-                                    Curabitur eu leo id urna placerat viverra
-                                    vel in ante. Vestibulum quam est, porta ut
-                                    ullamcorper ut, blandit ut arcu. Nullam
-                                    cursus ornare sem eu sollicitudin. Proin
-                                    pharetra elit rutrum mi mattis, non commodo
-                                    lacus sagittis. Etiam vulputate velit ex, et
-                                    aliquet eros scelerisque in. Fusce lacinia
-                                    justo tincidunt dapibus placerat.
-                                    <br /><br />
-                                    Curabitur bibendum nisl nunc, sed auctor
-                                    ante pulvinar fringilla. Cras at ex lacinia,
-                                    dictum arcu vitae, viverra urna. Duis
-                                    commodo placerat tincidunt. Fusce eu justo
-                                    eu leo consequat hendrerit. Proin non dolor
-                                    vel dolor feugiat ullamcorper. Sed accumsan
-                                    est eget iaculis vulputate. Nulla facilisi.
-                                    <br /><br />
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Fusce diam lacus, ultricies
-                                    eu nibh vitae, tristique vehicula erat.
-                                    Praesent vitae mi id enim fringilla lobortis
-                                    eu nec dolor. Proin finibus blandit
-                                    hendrerit. Duis ultricies ac nunc ut
-                                    commodo. Aenean at sapien ligula. Duis
-                                    bibendum urna id libero iaculis, non
-                                    vehicula mi mattis. Ut vehicula placerat
-                                    erat quis blandit. Phasellus feugiat
-                                    dignissim purus at efficitur. In blandit
-                                    gravida tempor. Praesent consectetur ut
-                                    felis id venenatis. Curabitur fringilla
-                                    rhoncus viverra. Duis cursus, enim eu luctus
-                                    tempus, enim urna tempor felis, auctor
-                                    maximus ipsum dolor at magna. Morbi id
-                                    facilisis felis, quis ullamcorper elit. Nunc
-                                    venenatis ullamcorper sem, in bibendum
-                                    lectus feugiat at. Proin in cursus nunc.
+                                    {{task.description}}
                                 </div>
                             </div>
                         </div>
                         <div class="m-3 lg:w-1/4 flex flex-col gap-6">
-                            <div>
+                            <!-- <div>
                                 <div class="flex items-center">
                                     <span class="grow">Assignees</span>
                                     <button
@@ -133,12 +96,12 @@ const props = defineProps({
                                 <div class="flex flex-wrap gap-1">
                                     <div class="badge badge-lg">987,654</div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div>
                                 <div class="flex items-center">
-                                    <span class="grow">Poids</span>
-                                    <button
+                                    <span class="grow mr-2">Priorité</span>
+                                    <!-- <button
                                         class="btn btn-square btn-outline btn-sm"
                                     >
                                         <svg
@@ -155,10 +118,10 @@ const props = defineProps({
                                                 d="M12 4v16m8-8H4"
                                             />
                                         </svg>
-                                    </button>
+                                    </button> -->
                                 </div>
                                 <div class="divider m-0"></div>
-                                <div class="flex">6</div>
+                                <div class="flex">{{task.score}}</div>
                             </div>
                         </div>
                         <label
