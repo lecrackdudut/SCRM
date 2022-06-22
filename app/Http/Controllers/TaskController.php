@@ -71,12 +71,14 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function show(Task $task)
+    public function show($id)
     {
-        //return Task::findOrFail($id); TODO : JS ou pas
+        $task = Task::with('backlog.project')->with('author')->findOrFail($id);
+
         return Inertia::render('TaskDetail', [
             'task' => $task,
-            'project' => $task->backlog->project
+            'project' => $task->backlog->project,
+            'majRelative' => $task->updated_at->diffForHumans()
         ]);
     }
 
