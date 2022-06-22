@@ -13,10 +13,18 @@ const props = defineProps({
 });
 
 const translateStatus = {
-    in_progress: "EN COURS",
-    open: "OUVERTE",
-    closed: "FERMÉE",
+    in_progress: "En cours",
+    open: "Ouverte",
+    closed: "Fermée",
 };
+const translateScore = {
+    "3": "Critique",
+    "2": "Haute",
+    "1": "Moyenne",
+    "0": "Basse",
+};
+
+let clickedTask = ref(null);
 
 const form = useForm({
     title: null,
@@ -26,10 +34,18 @@ const form = useForm({
     projectId: props.projectId,
 });
 
+let formEdition = useForm({
+    title: null,
+    description: null,
+    status: "open",
+    score: null,
+    projectId: props.projectId,
+});
+
 function getColor(status) {
     let color = "blue";
-    if (status === "OUVERTE") color = "green";
-    if (status === "FERMÉE") color = "red";
+    if (status === "Ouverte") color = "green";
+    if (status === "Fermée") color = "red";
     return color;
 }
 
@@ -41,8 +57,31 @@ function getClass(status) {
     return dynamicClass;
 }
 
+function getClassScore(score) {
+    let dynamicClass = "bg-green-200";
+    if (score == "0") dynamicClass = "bg-green-200";
+    else if (score == "1") dynamicClass = "bg-yellow-200";
+    else if (score == "2") dynamicClass = "bg-orange-200";
+    else if (score == "3") dynamicClass = "bg-red-200";
+    return dynamicClass
+}
+const editionModal = ref(null);
+const createModal = ref(null);
 function closeModal() {
-    document.getElementById("my-modal").checked = false;
+    createModal.value.checked = false;
+}
+
+function closeModalEdit() {
+    editionModal.value.checked = false;
+}
+
+function onModify(task) {
+    clickedTask.value = task;
+    console.log(task);
+    formEdition.title = task.title;
+    formEdition.description = task.description;
+    formEdition.status = task.status;
+    formEdition.score = task.score;
 }
 </script>
 
@@ -118,19 +157,22 @@ function closeModal() {
                                     >
                                 </td>
                                 <td>
-                                    <div class="flex items-center space-x-1">
-                                        <div>
-                                            <span class="font-bold">{{
+                                     <span
+                                         :class="
+                                            getClassScore(
                                                 task.score
-                                            }}</span>
-                                        </div>
-                                    </div>
+                                            )
+                                        "
+                                         class="badge badge-ghost badge-sm">{{
+                                             translateScore[task.score]
+                                         }}</span>
                                 </td>
                                 <td class="p-2 flex space-x-3">
                                     <div>
                                         <label
                                             class="btn btn-square btn-circle"
                                             for="task-edition"
+                                            @click="onModify(task)"
                                         >
                                             <svg
                                                 class="h-6 w-6"
@@ -175,7 +217,7 @@ function closeModal() {
                 </div>
             </div>
         </div>
-        <input id="my-modal" class="modal-toggle" type="checkbox" />
+        <input id="my-modal" ref="createModal" class="modal-toggle" type="checkbox" />
         <div class="modal">
             <div class="modal-box">
                 <h3 class="font-bold text-lg">Créer une tâche</h3>
@@ -214,13 +256,16 @@ function closeModal() {
                     </div>
                     <div class="flex flex-col">
                         <label class="py-4">Priorité</label>
-                        <input
+                        <select
                             v-model="form.score"
                             class="input input-bordered input-primary w-full max-w-xs"
-                            max="3"
-                            min="0"
-                            type="number"
-                        />
+                            type="text"
+                        >
+                            <option value="3">Critique</option>
+                            <option value="2">Haute</option>
+                            <option value="1">Moyenne</option>
+                            <option value="0">Basse</option>
+                        </select>
                         <div class="text-error" v-if="form.errors.score">
                             {{ form.errors.score }}
                         </div>
@@ -239,15 +284,22 @@ function closeModal() {
             </div>
         </div>
 
-        <input id="task-edition" class="modal-toggle" type="checkbox" />
+        <input id="task-edition" ref="editionModal" class="modal-toggle" type="checkbox" />
         <div class="modal">
             <div class="modal-box">
                 <h3 class="font-bold text-lg">Modifier la tâche</h3>
-                <form @submit.prevent="form.put('/tasks/' + task)">
+                <form @submit.prevent="
+                        formEdition.put('/tasks/' + clickedTask.id, {
+                            preserveScroll: true,
+                            onSuccess: () => {
+                                form.reset();
+                                closeModalEdit();
+                            },
+                        })">
                     <div class="flex flex-col">
                         <label class="py-4">Nom de la tâche</label>
                         <input
-                            v-model="form.title"
+                            v-model="formEdition.title"
                             class="input input-bordered input-primary w-full max-w-xs"
                             type="text"
                         />
@@ -255,25 +307,43 @@ function closeModal() {
                     <div class="flex flex-col">
                         <label class="py-4">Description</label>
                         <input
-                            v-model="form.description"
+                            v-model="formEdition.description"
                             class="input input-bordered input-primary w-full max-w-xs"
                             type="text"
                         />
                     </div>
                     <div class="flex flex-col">
-                        <label class="py-4">Priorité</label>
-                        <input
-                            v-model="form.score"
+                        <label class="py-4">Status</label>
+                        <select
+                            v-model="formEdition.status"
                             class="input input-bordered input-primary w-full max-w-xs"
-                            max="3"
-                            min="0"
-                            type="number"
-                        />
+                            type="text"
+                        >
+                            <option value="closed">Fermée</option>
+                            <option value="open">Ouverte</option>
+                            <option value="in_progress">En cours</option>
+                            </select>
                     </div>
-
+                    <div class="flex flex-col">
+                        <label class="py-4">Priorité</label>
+                        <select
+                            v-model="formEdition.score"
+                            class="input input-bordered input-primary w-full max-w-xs"
+                            type="text"
+                        >
+                            <option value="3">Critique</option>
+                            <option value="2">Haute</option>
+                            <option value="1">Moyenne</option>
+                            <option value="0">Basse</option>
+                        </select>
+                    </div>
                     <div class="modal-action">
-                        <button :disabled="form.processing" type="submit">
-                            <label class="btn" for="task-edition">Créer</label>
+                        <button
+                            :disabled="formEdition.processing"
+                            class="btn"
+                            type="submit"
+                        >
+                            modifier
                         </button>
                     </div>
                 </form>
