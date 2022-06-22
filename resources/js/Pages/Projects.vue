@@ -7,7 +7,7 @@ const props = defineProps({
 });
 
 const form = useForm({
-    title: null,
+    name: null,
     description: null,
 });
 
@@ -110,7 +110,7 @@ function closeModal() {
                             </div>
                             <form
                                 @submit.prevent="
-                        form.post('/tasks', {
+                        form.post('/projects', {
                             preserveScroll: true,
                             onSuccess: () => {
                                 form.reset();
@@ -122,12 +122,12 @@ function closeModal() {
                                 <div class="flex flex-col">
                                     <label class="py-4">Nom du projet</label>
                                     <input
-                                        v-model="form.title"
+                                        v-model="form.name"
                                         class="input input-bordered input-primary w-full max-w-xs"
                                         type="text"
                                     />
-                                    <div class="text-error" v-if="form.errors.title">
-                                        {{ form.errors.title }}
+                                    <div class="text-error" v-if="form.errors.name">
+                                        {{ form.errors.name }}
                                     </div>
                                 </div>
                                 <div class="flex flex-col">

@@ -130,7 +130,7 @@ function onModify(task) {
                                         :href="`/tasks/${task.id}`"
                                     >
                                         <div
-                                            class="flex items-center space-x-1 hover:underline"
+                                            class="flex items-center space-x-1 hover:underline min-w-[350px]"
                                         >
                                             <div>
                                                 <span>{{ task.title }}</span>

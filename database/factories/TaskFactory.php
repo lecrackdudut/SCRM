@@ -21,7 +21,7 @@ class TaskFactory extends Factory
             'title' => $this->faker->words(5, true),
             'description' => $this->faker->text,
             'status' => $this->faker->randomElement(['open', 'in_progress', 'closed']),
-            'score' => $this->faker->randomDigit(),
+            'score' => $this->faker->numberBetween(0, 3),
             'user_id' => User::first()->id
         ];
     }

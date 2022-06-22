@@ -6,6 +6,7 @@ use App\Models\Backlog;
 use App\Models\Project;
 use Illuminate\Console\Events\ScheduledTaskSkipped;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ProjectsController extends Controller
@@ -40,5 +41,32 @@ class ProjectsController extends Controller
             "projectId" => $project->id
         ]);
 
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'max:50'],
+            'description' => ['required', 'max:50'],
+        ]);
+
+        $project = new Project;
+
+        $project->fill(
+            $request->only('name', 'description')
+        );
+
+        $project->save();
+        $backlog = new Backlog;
+        $project->backlog()->save($backlog);
+
+        return Redirect::route('projects.show', $project);
     }
 }

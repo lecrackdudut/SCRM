@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('sprint_duration');
+            $table->text('description');
+            $table->integer('sprint_duration')->nullable();
             $table->timestamps();
         });
     }
