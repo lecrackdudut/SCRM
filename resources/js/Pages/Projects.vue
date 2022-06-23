@@ -71,7 +71,7 @@ function closeModal() {
                                                     {{ project.name }}
                                                 </div>
                                                 <div class="text-sm opacity-50">
-                                                    Alexis Dampt
+                                                    {{ project.author}}
                                                 </div>
                                             </div>
                                         </div>

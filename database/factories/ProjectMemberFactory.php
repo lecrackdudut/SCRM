@@ -18,7 +18,7 @@ class ProjectMemberFactory extends Factory
     public function definition()
     {
         return [
-            'role' => $this->faker->randomElement(['scrum_master', 'product_owner', 'developer', 'admin']),
+            'role' => $this->faker->randomElement(['scrum_master']),
             //'user_id' => User::first()->id,
         ];
     }
