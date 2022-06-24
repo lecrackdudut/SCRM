@@ -9,7 +9,7 @@ import { getCurrentInstance, defineComponent } from "vue";
 const props = defineProps({
     name: String,
     tasks: Array,
-    projectId: Number,
+    project: Object,
 });
 
 const translateStatus = {
@@ -31,7 +31,7 @@ const form = useForm({
     description: null,
     status: "open",
     score: null,
-    projectId: props.projectId,
+    projectId: props.project.id,
 });
 
 let formEdition = useForm({
@@ -39,7 +39,7 @@ let formEdition = useForm({
     description: null,
     status: "open",
     score: null,
-    projectId: props.projectId,
+    projectId: props.project.id,
 });
 
 function getColor(status) {
@@ -90,6 +90,9 @@ function onModify(task) {
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Backlog
             </h2>
+            <div class="text-sm text-gray-600 mt-2">
+                {{ project.description }}
+            </div>
         </template>
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

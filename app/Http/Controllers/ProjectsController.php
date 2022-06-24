@@ -45,7 +45,7 @@ class ProjectsController extends Controller
         return Inertia::render('ProjectDetail', [
             'name' => $project->name,
             'tasks' => $project->backlog->tasks()->orderBy('score', 'desc')->get(),
-            "projectId" => $project->id
+            "project" => $project
         ]);
 
     }
