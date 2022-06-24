@@ -26,8 +26,6 @@ class ProjectsController extends Controller
             if($project->memberships()->where("role", "scrum_master")->first()) {
                 $project->author = $project->memberships()->where("role", "scrum_master")->first()->user->name;
             }
-
-
         }
 
         return Inertia::render('Projects', [

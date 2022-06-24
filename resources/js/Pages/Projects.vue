@@ -79,12 +79,6 @@ function closeModal() {
                                 </td>
 
                                 <td>
-                                    <span
-                                        class="badge badge-ghost badge-sm bg-green-300"
-                                        >En cours</span
-                                    >
-                                </td>
-                                <td>
                                     {{ project.nbTasks }} <b>Taches</b> <br />{{
                                         project.nbSprints
                                     }}

@@ -111,6 +111,14 @@ function onModify(task) {
                         </div>
                     </div>
                     <table class="table w-full mt-2 px-3">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>nom</th>
+                                <th>status</th>
+                                <th>priorité</th>
+                            </tr>
+                        </thead>
                         <!-- head -->
                         <tbody>
                             <!-- row 2 -->

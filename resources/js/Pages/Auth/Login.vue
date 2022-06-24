@@ -38,9 +38,7 @@ const submit = () => {
             <JetAuthenticationCardLogo />
         </template>
 
-        <LinkButton href="/register" class="mb-4 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
-            Register
-        </LinkButton>
+
 
         <JetValidationErrors class="mb-4" />
 
@@ -80,14 +78,22 @@ const submit = () => {
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex flex-col items-center justify-center m-4">
                 <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
                     Forgot your password?
                 </Link>
 
-                <JetButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <JetButton class="mt-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Log in
                 </JetButton>
+            </div>
+            <span class="flex flex-col items-center justify-center text-sm text-gray-600">
+            or
+            </span>
+            <div class="flex items-center justify-center mt-4">
+                <LinkButton href="/register" class="mb-4 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">
+                    Register
+                </LinkButton>
             </div>
         </form>
     </JetAuthenticationCard>
