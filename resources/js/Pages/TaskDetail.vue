@@ -6,7 +6,8 @@ import {ref} from "@vue/reactivity";
 const props = defineProps({
     project: Object,
     task: Object,
-    majRelative: String
+    majRelative: String,
+    memberships: Array,
 });
 
 
@@ -28,6 +29,7 @@ let formEdition = useForm({
     status: "open",
     score: null,
     projectId: props.projectId,
+    userId: null
 });
 
 function getColor(status) {
@@ -60,11 +62,11 @@ function closeModalEdit() {
 }
 
 function onModify() {
-    console.log(props.task);
     formEdition.title = props.task.title;
     formEdition.description = props.task.description;
     formEdition.status = props.task.status;
     formEdition.score = props.task.score;
+    formEdition.userId = props.task.userId;
 }
 </script>
 
@@ -120,18 +122,7 @@ function onModify() {
                                 </div>
                                 <div class="flex gap-4 align-center m-2">
                                     <div>
-                                        <span
-                                        :class="
-                                            getClass(
-                                                translateStatus[
-                                                    task.status.toLowerCase()
-                                                ]
-                                            )
-                                        " class="badge badge-ghost badge-sm items-center">
-                                         {{translateStatus[task.status.toLowerCase()]}}
-                                        </span>
-                                        Créé {{majRelative}} par
-                                        <b>{{ task.author.name }}</b>
+                                        Mise à jour {{majRelative}}
                                     </div>
                                 </div>
                                 <div
@@ -169,7 +160,22 @@ function onModify() {
                                     <div class="badge badge-lg">987,654</div>
                                 </div>
                             </div> -->
-
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="grow mr-2">Statut</span>
+                                </div>
+                                <div class="divider m-0"></div>
+                                <span
+                                    :class="
+                                            getClass(
+                                                translateStatus[
+                                                    task.status.toLowerCase()
+                                                ]
+                                            )
+                                        " class="badge badge-ghost badge-sm items-center">
+                                         {{translateStatus[task.status.toLowerCase()]}}
+                                        </span>
+                            </div>
                             <div>
                                 <div class="flex items-center">
                                     <span class="grow mr-2">Priorité</span>
@@ -203,12 +209,19 @@ function onModify() {
                                         translateScore[task.score]
                                     }}</span>
                             </div>
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="grow mr-2">Responsable</span>
+                                </div>
+                                <div class="divider m-0"></div>
+                                <span class="text-sm"> {{ task.author.name }} </span>
+                            </div>
                         </div>
+
                         <label
                             for="my-drawer-2"
-                            class="btn btn-primary drawer-button lg:hidden"
-                            >Open drawer</label
-                        >
+                            class="btn btn-primary drawer-button lg:hidden">
+                            Open drawer</label>
                     </div>
                 </div>
             </div>
@@ -248,7 +261,7 @@ function onModify() {
                         />
                     </div>
                     <div class="flex flex-col">
-                        <label class="py-4">Status</label>
+                        <label class="py-4">Statut</label>
                         <select
                             v-model="formEdition.status"
                             class="input input-bordered input-primary w-full max-w-xs"
@@ -269,6 +282,18 @@ function onModify() {
                             <option value="1">Moyenne</option>
                             <option value="0">Basse</option>
                         </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="py-4">Responsable</label>
+                        <select
+                            v-model="formEdition.userId"
+                            class="input input-bordered input-primary w-full max-w-xs"
+                        >
+                            <option v-for="user in memberships" :key="user.id" :value="user.id">{{ user.name }}</option>
+                        </select>
+                        <div class="text-error" v-if="formEdition.errors.userId">
+                            {{ formEdition.errors.userId }}
+                        </div>
                     </div>
                     <div class="modal-action">
                         <button

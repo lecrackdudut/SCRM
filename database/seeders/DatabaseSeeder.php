@@ -49,6 +49,50 @@ class DatabaseSeeder extends Seeder
             ->for($project)
             ->create();
 
+        $userAl = User::factory()
+            ->create([
+                'name' => 'Alexis Dampt',
+                'email' => 'alexis@scrm.tk',
+            ]);
+
+        ProjectMember::factory()
+            ->for($userAl)
+            ->for($project)
+            ->create();
+
+        $userBa = User::factory()
+            ->create([
+                'name' => 'Baptiste Ledoyen',
+                'email' => 'baptiste@scrm.tk',
+            ]);
+
+        ProjectMember::factory()
+            ->for($userBa)
+            ->for($project)
+            ->create();
+
+        $userBe = User::factory()
+            ->create([
+                'name' => 'Benjamin Bardet',
+                'email' => 'Benjamin@scrm.tk',
+            ]);
+
+        ProjectMember::factory()
+            ->for($userBe)
+            ->for($project)
+            ->create();
+
+        $userT = User::factory()
+            ->create([
+                'name' => 'Thomas Tse',
+                'email' => 'Thomas@scrm.tk',
+            ]);
+
+        ProjectMember::factory()
+            ->for($userT)
+            ->for($project)
+            ->create();
+
 
 /*        Project::factory(10)
             ->has(Backlog::factory()

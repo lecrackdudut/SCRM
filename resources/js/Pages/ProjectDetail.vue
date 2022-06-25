@@ -10,6 +10,7 @@ const props = defineProps({
     name: String,
     tasks: Array,
     project: Object,
+    memberships: Array,
 });
 
 const translateStatus = {
@@ -32,6 +33,7 @@ const form = useForm({
     status: "open",
     score: null,
     projectId: props.project.id,
+    userId: null,
 });
 
 let formEdition = useForm({
@@ -40,6 +42,7 @@ let formEdition = useForm({
     status: "open",
     score: null,
     projectId: props.project.id,
+    userId: null,
 });
 
 function getColor(status) {
@@ -81,6 +84,7 @@ function onModify(task) {
     formEdition.description = task.description;
     formEdition.status = task.status;
     formEdition.score = task.score;
+    formEdition.userId = task.author.id;
 }
 </script>
 
@@ -118,6 +122,7 @@ function onModify(task) {
                             <tr>
                                 <th>id</th>
                                 <th>nom</th>
+                                <th>responsable</th>
                                 <th>statut</th>
                                 <th>priorité</th>
                             </tr>
@@ -148,6 +153,11 @@ function onModify(task) {
                                             </div>
                                         </div>
                                     </Link>
+                                </td>
+                                <td>
+                                    <span class="text-sm">
+                                        {{task.author.name}}
+                                    </span>
                                 </td>
                                 <td>
                                     <span
@@ -284,6 +294,18 @@ function onModify(task) {
                             {{ form.errors.score }}
                         </div>
                     </div>
+                    <div class="flex flex-col">
+                        <label class="py-4">Responsable</label>
+                        <select
+                            v-model="form.userId"
+                            class="input input-bordered input-primary w-full max-w-xs"
+                        >
+                            <option v-for="user in memberships" :key="user.id" :value="user.id">{{ user.name }}</option>
+                        </select>
+                        <div class="text-error" v-if="form.errors.userId">
+                            {{ form.errors.userId }}
+                        </div>
+                    </div>
 
                     <div class="modal-action">
                         <button
@@ -332,7 +354,7 @@ function onModify(task) {
                         />
                     </div>
                     <div class="flex flex-col">
-                        <label class="py-4">Status</label>
+                        <label class="py-4">Statut</label>
                         <select
                             v-model="formEdition.status"
                             class="input input-bordered input-primary w-full max-w-xs"
@@ -353,6 +375,18 @@ function onModify(task) {
                             <option value="1">Moyenne</option>
                             <option value="0">Basse</option>
                         </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="py-4">Responsable</label>
+                        <select
+                            v-model="formEdition.userId"
+                            class="input input-bordered input-primary w-full max-w-xs"
+                        >
+                            <option v-for="user in memberships" :key="user.id" :value="user.id">{{ user.name }}</option>
+                        </select>
+                        <div class="text-error" v-if="formEdition.errors.userId">
+                            {{ formEdition.errors.userId }}
+                        </div>
                     </div>
                     <div class="modal-action">
                         <button
