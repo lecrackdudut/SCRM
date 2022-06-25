@@ -90,7 +90,7 @@ function onModify(task) {
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Backlog
             </h2>
-            <div class="text-sm text-gray-600 mt-2">
+            <div v-if="project.description" class="text-sm text-gray-600 mt-2">
                 {{ project.description }}
             </div>
         </template>

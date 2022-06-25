@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Laravel\Jetstream\Role;
 
+use function GuzzleHttp\Promise\task;
+
 class ProjectsController extends Controller
 {
     public function index()
@@ -42,12 +44,29 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
+        $tasks = $project->backlog->tasks()->orderBy('score', 'desc')->get()->map(function ($task) {
+            switch ($task->status->value) {
+                case 'in_progress':
+                    $task->statusOrdered = 1;
+                    return $task;
+                    break;
+                case 'open':
+                    $task->statusOrdered = 2;
+                    return $task;
+                    break;
+                case 'closed':
+                    $task->statusOrdered = 3;
+                    return $task;
+            }
+        });
+
+        $orderedTasks = $tasks->sortBy('statusOrdered')->values()->all();
+        
         return Inertia::render('ProjectDetail', [
             'name' => $project->name,
-            'tasks' => $project->backlog->tasks()->orderBy('score', 'desc')->get(),
+            'tasks' => $orderedTasks,
             "project" => $project
         ]);
-
     }
 
 
