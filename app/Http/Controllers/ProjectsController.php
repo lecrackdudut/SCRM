@@ -19,11 +19,12 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        $projects = Project::with('backlog.tasks')->get();
+        $projects = Project::with('backlog.tasks')->with('memberships.user')->get();
 
         foreach ($projects as $project) {
             $project->nbSprints = $project->sprints->count();
             $project->nbTasks = $project->backlog->tasks->count();
+            $project->nbMembres = $project->memberships->count();
             $project->majRelative = $project->updated_at->diffForHumans();
             if($project->memberships()->where("role", "scrum_master")->first()) {
                 $project->author = $project->memberships()->where("role", "scrum_master")->first()->user->name;
@@ -31,7 +32,7 @@ class ProjectsController extends Controller
         }
 
         return Inertia::render('Projects', [
-            'projects' => $projects
+            'projects' => $projects,
         ]);
 
     }

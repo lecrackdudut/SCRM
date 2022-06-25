@@ -84,6 +84,14 @@ function closeModal() {
                                     }}
                                     <b>Sprints</b>
                                 </td>
+                                <td>
+                                    <Link
+                                        :href="`/projects/${project.id}/members`"
+                                        class="hover:underline"
+                                    >
+                                       {{ project.nbMembres }} Membres
+                                    </Link>
+                                </td>
                                 <td class="text-right">
                                     Mis à jour <b>{{ project.majRelative }}</b>
                                 </td>

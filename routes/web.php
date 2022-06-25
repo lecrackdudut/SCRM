@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
@@ -44,5 +45,6 @@ Route::middleware([
     });
     Route::resource('/tasks', TaskController::class);
 
+    Route::resource('/projects/{project}/members', MemberController::class);
 
 });
