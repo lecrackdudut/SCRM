@@ -9,6 +9,7 @@ use App\Models\ProjectMember;
 use Illuminate\Console\Events\ScheduledTaskSkipped;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Laravel\Jetstream\Role;
@@ -19,7 +20,12 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        $projects = Project::with('backlog.tasks')->with('memberships.user')->get();
+        $memberships = ProjectMember::where('user_id', Auth::user()->id)->get();
+        $ids = $memberships->pluck('project_id');
+
+        $projects = Project::with('backlog.tasks')->with('memberships.user')
+        ->whereIn('id', $ids)
+        ->get();
 
         foreach ($projects as $project) {
             $project->nbSprints = $project->sprints->count();
