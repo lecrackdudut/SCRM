@@ -45,7 +45,7 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
-        $tasks = $project->backlog->tasks()->orderBy('score', 'desc')->get()->map(function ($task) {
+        $tasks = $project->backlog->tasks()->with('author')->orderBy('score', 'desc')->get()->map(function ($task) {
             switch ($task->status->value) {
                 case 'in_progress':
                     $task->statusOrdered = 1;
@@ -62,11 +62,12 @@ class ProjectsController extends Controller
         });
 
         $orderedTasks = $tasks->sortBy('statusOrdered')->values()->all();
-        
+        //dd($project->memberships->pluck("user"));
         return Inertia::render('ProjectDetail', [
             'name' => $project->name,
             'tasks' => $orderedTasks,
-            "project" => $project
+            'project' => $project,
+            'memberships' => $project->memberships->pluck("user")
         ]);
     }
 

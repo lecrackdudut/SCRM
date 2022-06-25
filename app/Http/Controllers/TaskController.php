@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Backlog;
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -56,8 +57,9 @@ class TaskController extends Controller
         );
 
         $project = Project::findOrFail($request->projectId);
-//        $task->backlog()->save($project->backlog);
-        $user = Auth::user();
+        //$task->backlog()->save($project->backlog);
+
+        $user = User::findOrfail($request->userId);
         $task->author()->associate($user);
         $project->backlog->tasks()->save($task);
 
@@ -78,7 +80,8 @@ class TaskController extends Controller
         return Inertia::render('TaskDetail', [
             'task' => $task,
             'project' => $task->backlog->project,
-            'majRelative' => $task->updated_at->diffForHumans()
+            'majRelative' => $task->updated_at->diffForHumans(),
+            'memberships' => $task->backlog->project->memberships->pluck("user")
         ]);
     }
 
@@ -110,7 +113,8 @@ class TaskController extends Controller
         $task->description = $request->description;
         $task->status = $request->status;
         $task->score = $request->score;
-
+        $user = User::findOrfail($request->userId);
+        $task->author()->associate($user);
         $task->save();
 
         return back();
