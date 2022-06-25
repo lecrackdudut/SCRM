@@ -51,7 +51,7 @@ class ProjectsController extends Controller
                     return $task;
                     break;
                 case 'open':
-                    $task->statusOrdered = 2;
+                    $task->statusOrdered = 1;
                     return $task;
                     break;
                 case 'closed':

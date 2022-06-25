@@ -118,7 +118,7 @@ function onModify(task) {
                             <tr>
                                 <th>id</th>
                                 <th>nom</th>
-                                <th>status</th>
+                                <th>statut</th>
                                 <th>priorité</th>
                             </tr>
                         </thead>
