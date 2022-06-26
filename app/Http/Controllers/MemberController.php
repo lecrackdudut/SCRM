@@ -21,6 +21,8 @@ class MemberController extends Controller
     {
         $project = Project::with('memberships.user')->findOrFail($id);
 
+        $this->authorize('update', $project);
+
         $allUsers = User::all();
         $alreadyInProject = $project->memberships->pluck('user');
         $usersAvailable = $allUsers->except($alreadyInProject->keyBy('id')->keys()->all());
@@ -33,16 +35,6 @@ class MemberController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -50,48 +42,18 @@ class MemberController extends Controller
      */
     public function store(Request $request, $id)
     {
+        $project = Project::findOrFail($id);
+        $this->authorize('update', $project);
+
         $membership = new ProjectMember;
         $membership->role = $request->get('role');
         $membership->user()->associate(User::findOrFail($request->get('user')));
-        $membership->project()->associate(Project::findOrFail($id));
+        $membership->project()->associate($project);
         $membership->save();
 
         return back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -101,6 +63,9 @@ class MemberController extends Controller
      */
     public function destroy($idProject, $idMember)
     {
+        $project = Project::findOrFail($idProject);
+        $this->authorize('update', $project);
+
         $projectMember = ProjectMember::findOrFail($idMember);
         $projectMember->delete();
         return back();

@@ -18,6 +18,16 @@ use function GuzzleHttp\Promise\task;
 
 class ProjectsController extends Controller
 {
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Project::class, 'project');
+    }
+
     public function index()
     {
         $memberships = ProjectMember::where('user_id', Auth::user()->id)->get();

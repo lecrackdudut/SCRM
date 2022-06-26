@@ -37,14 +37,19 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return redirect('/projects');
     })->name('dashboard');
+
     Route::controller(ProjectsController::class)->group(function() {
         Route::get('/projects', 'index')->name('projects');
         Route::post('/projects', 'store')->name('projects');
-
         Route::get('/projects/{project}', 'show')->name('projects.show'); // project details
     });
-    Route::resource('/tasks', TaskController::class);
 
-    Route::resource('/projects/{project}/members', MemberController::class);
+    Route::resource('/tasks', TaskController::class)->only([
+        'store', 'show', 'update', 'destroy'
+    ]);
+
+    Route::resource('/projects/{project}/members', MemberController::class)->only([
+        'index', 'store', 'destroy'
+    ]);
 
 });

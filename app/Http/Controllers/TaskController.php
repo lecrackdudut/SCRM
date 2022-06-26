@@ -13,27 +13,6 @@ use Inertia\Inertia;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        # Normalement, c'est pour lister toutes les tâches malheureusement nous on veut les ressources du projet où du backlog ?
-
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-       // not needed
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -59,6 +38,8 @@ class TaskController extends Controller
         $project = Project::findOrFail($request->projectId);
         //$task->backlog()->save($project->backlog);
 
+        $this->authorize('view', $project);
+
         $user = User::findOrfail($request->userId);
         $task->author()->associate($user);
         $project->backlog->tasks()->save($task);
@@ -77,26 +58,17 @@ class TaskController extends Controller
     {
         $task = Task::with('backlog.project')->with('author')->findOrFail($id);
 
+        $project = $task->backlog->project;
+        $this->authorize('view', $project);
+
         return Inertia::render('TaskDetail', [
             'task' => $task,
-            'project' => $task->backlog->project,
+            'project' => $project,
             'majRelative' => $task->updated_at->diffForHumans(),
             'memberships' => $task->backlog->project->memberships->pluck("user")
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Inertia\Response
-     */
-    public function edit($id)
-    {
-        //return Inertia::render('TaskEdition', [
-        //    'task' => $this->show($id)
-        //]);
-    }
 
     /**
      * Update the specified resource in storage.
@@ -108,6 +80,9 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         $task = Task::findOrFail($id);
+
+        $project = $task->backlog->project;
+        $this->authorize('view', $project);
 
         $task->title = $request->title;
         $task->description = $request->description;
@@ -131,6 +106,7 @@ class TaskController extends Controller
         $task = Task::findOrFail($id);
 
         $project = $task->backlog->project;
+        $this->authorize('view', $project);
 
         $task->delete();
         return Redirect::route('projects.show', $project);
