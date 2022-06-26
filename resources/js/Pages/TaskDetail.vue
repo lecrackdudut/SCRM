@@ -28,7 +28,7 @@ let formEdition = useForm({
     description: null,
     status: "open",
     score: null,
-    projectId: props.projectId,
+    projectId: props.project.id,
     userId: null
 });
 
@@ -66,7 +66,7 @@ function onModify() {
     formEdition.description = props.task.description;
     formEdition.status = props.task.status;
     formEdition.score = props.task.score;
-    formEdition.userId = props.task.userId;
+    formEdition.userId = props.task.author.id;
 }
 </script>
 
